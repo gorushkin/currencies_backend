@@ -1,3 +1,8 @@
-const PORT = Number(process.env.PORT) || 3000;
+import * as dotenv from 'dotenv';
 
-export const config = { PORT };
+dotenv.config();
+
+const PORT = Number(process.env.PORT) || 3000;
+const LOGS_DIR = process.env.LOGS_DIR || '';
+
+export const config = { PORT, LOGS_DIR };
