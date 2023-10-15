@@ -7,13 +7,8 @@ const { Router } = express;
 const router = Router();
 
 enum ROUTE {
-  TEST = '/test',
-  API = '/api',
+  API = '/',
 }
-
-router.get(ROUTE.TEST, (_, res) => {
-  res.status(200).send({ message: 'server is running', status: 'ok' });
-});
 
 router.get(ROUTE.API, errorHandler(getCurrencies));
 

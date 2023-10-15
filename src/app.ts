@@ -16,6 +16,12 @@ app.use(express.json());
 
 app.use(config.API, router);
 
+app.get('*', (_, res) => {
+  res
+    .status(200)
+    .send({ message: `Server started on port ${config.PORT}`, status: 'ok' });
+});
+
 app.use(Sentry.Handlers.errorHandler());
 
 app.use(errorMiddleWare);
