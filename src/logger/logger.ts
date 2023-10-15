@@ -1,31 +1,15 @@
-import path from 'path';
-
 import pino, { Logger as Pino } from 'pino';
-
-import { config } from '../config/config';
 
 export class Logger {
   logger: Pino;
-  constructor(dir: string) {
+  constructor() {
     this.logger = pino({
       timestamp: () => `,"timestamp":"${new Date(Date.now()).toISOString()}"`,
       transport: {
-        targets: [
-          {
-            target: 'pino/file',
-            options: {
-              destination: `${path.join(process.cwd(), dir)}`,
-            },
-            level: 'info',
-          },
-          {
-            target: 'pino-pretty',
-            options: {
-              colorize: true,
-            },
-            level: 'info',
-          },
-        ],
+        target: 'pino-pretty',
+        options: {
+          colorize: true,
+        },
       },
     });
   }
@@ -34,4 +18,4 @@ export class Logger {
   error = (message: string) => this.logger.error(message);
 }
 
-export const logger = new Logger(config.LOGS_DIR);
+export const logger = new Logger();

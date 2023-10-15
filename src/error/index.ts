@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction, Router } from 'express';
 
+import { logger } from '../logger/logger';
+
 class AppError extends Error {
   status: number;
   message: string;
@@ -36,8 +38,10 @@ export const errorMiddleWare = (
   next: NextFunction,
 ) => {
   if (!(error instanceof AppError)) {
+    logger.error(error);
     return response.status(500).send({ error: 'There is an error' });
   }
+  logger.error(error.message);
   response.status(error.status).send({ error: error.message });
   next();
 };
