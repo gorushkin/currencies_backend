@@ -2,12 +2,13 @@ import path from 'path';
 
 import pino, { Logger as Pino } from 'pino';
 
-import { config } from '../config';
+import { config } from '../config/config';
 
 export class Logger {
   logger: Pino;
   constructor(dir: string) {
     this.logger = pino({
+      timestamp: () => `,"timestamp":"${new Date(Date.now()).toISOString()}"`,
       transport: {
         targets: [
           {

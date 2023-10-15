@@ -1,12 +1,23 @@
+import * as Sentry from '@sentry/node';
 import cors from 'cors';
 import express from 'express';
 
+import { config } from './config/config';
+import { errorMiddleWare } from './error';
+import { router } from './routes/routes';
+import { initSentry } from './sentry';
+
 const app = express();
 
-app.use(cors());
+initSentry(app, config.DSN, config.MODE);
 
-app.get('/', (_, res) => {
-  res.status(200).send('server is running');
-});
+app.use(cors());
+app.use(express.json());
+
+app.use(config.API, router);
+
+app.use(Sentry.Handlers.errorHandler());
+
+app.use(errorMiddleWare);
 
 export { app };
